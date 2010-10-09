@@ -1,4 +1,4 @@
-=== Blog-in-Blog ===
+=== ImageMenu ===
 Contributors: timhodson
 Donate link: http://timhodosn.com/imagemenu
 Tags: image, menu,
