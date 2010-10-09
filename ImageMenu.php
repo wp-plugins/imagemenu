@@ -3,7 +3,7 @@
 Plugin Name: ImageMenu
 Plugin URI: http://timhodson.com/imageMenu/
 Description: Create an image menu using featured images
-Version: 0.1
+Version: 0.2
 Author: Tim Hodson
 Author URI: http://timhodson.com
 Text Domain: imagemenu
@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 if ( ! defined( 'IM_VERSION' ) )
-    define( 'IM_VERSION', '0.1' );
+    define( 'IM_VERSION', '0.2' );
 
 // Pre-2.6 compatibility
 if ( ! defined( 'WP_CONTENT_URL' ) )
@@ -52,7 +52,12 @@ include_once( WP_PLUGIN_DIR.'/'.$plugin_dir."/options.php" );
 add_shortcode('imagemenu', 'imagemenu_func');
 add_shortcode('im', 'imagemenu_func');
 
-// register as a template function? or are they just availale?
+function imagemenu_init() {
+    wp_enqueue_script('jQuery');
+}
+
+add_action('init', 'imagemenu_init');
+
 
 function imagemenu_func($atts){
     global $imagemenu_opts;
@@ -82,11 +87,23 @@ function imagemenu_func($atts){
     }
 
     //start building HTML
-    $out = '<div id="imagemenu" class="imagemenu"><ul>';
+    $out = '<div id="imagemenu" class="imagemenu"> <!-- ImageMenu Version: '.IM_VERSION.' --> <ul>';
     $out .= '<style type="text/css">';
     $out .= html_entity_decode($imagemenu_opts['maincss']);
-
     $out .= '</style>';
+
+    $out .= '<script type="text/javascript">';
+    $out .= '
+$j = jQuery.noConflict();
+  $j(window).load( function () {
+                    $j(".imagemenu-title").fadeOut(5000);
+                }
+            )
+        
+            ';
+
+    $out .= '</script>';
+
     foreach ($pages as $page){
     // for each page slug get the page details
 
@@ -113,9 +130,23 @@ function imagemenu_func($atts){
        // var_dump($page);
 
         $out .= '<style type="text/css"> '.$style.' </style>';
+        
+      
         // output the li
-        $out .= '<li id="imagemenu-'.$page->post_name .'"><a href="'.$link.'" alt="'.$title.'"><span class="imagemenu-title" >'.$title.'</span>'.$img.'</a>' ;
-
+        $out .= '<li id="imagemenu-'.$page->post_name .'"><a href="'.$link.'" alt="'.$title.'"><span class="imagemenu-title imagemenu-title-'.$page->post_name.'" >'.$title.'</span>'.$img.'</a>' ;
+          // jquery
+        $out.= '<script type="text/javascript">
+            $j("#imagemenu-'.$page->post_name.'").hover(
+                function(){
+                    //alert("HERE");
+                    $j(".imagemenu-title-'.$page->post_name.'").fadeIn(200);
+                    }
+                ,
+                function(){
+                    $j(".imagemenu-title-'.$page->post_name.'").fadeOut(500);
+                    }
+                )
+                </script>';
         $out .= '</li>';
 
     }

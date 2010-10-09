@@ -4,7 +4,7 @@ Donate link: http://timhodosn.com/imagemenu
 Tags: image, menu,
 Requires at least: 3.0.1
 Tested up to: 3.0.1
-Stable tag: 0.1
+Stable tag: 0.2
 
 Create a menu using the featured image of a page.
 
@@ -39,6 +39,10 @@ Yes, and I will even try to answer your question! If you are atempting to contac
 
 
 == Changelog ==
+
+= 0.2 =
+
+* Added: jQuery to fade labels in and out.
 
 = 0.1 =
 
