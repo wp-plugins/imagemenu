@@ -1,6 +1,6 @@
 === ImageMenu ===
 Contributors: timhodson
-Donate link: http://timhodosn.com/imagemenu
+Donate link: http://timhodson.com/imagemenu
 Tags: image, menu,
 Requires at least: 3.0.1
 Tested up to: 3.0.1
